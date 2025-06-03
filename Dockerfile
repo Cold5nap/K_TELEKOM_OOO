@@ -1,17 +1,14 @@
 # Базовый образ с Node.js и corepack для pnpm
 FROM node:20-slim AS base
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-
-RUN corepack enable
+RUN npm install -g pnpm@10.11.0
 
 WORKDIR /app/client
 
 # Установка зависимостей с кэшированием
 FROM base AS deps
 COPY client/package.json client/pnpm-lock.yaml ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm install
 
 # Сборка приложения
 FROM base AS build
