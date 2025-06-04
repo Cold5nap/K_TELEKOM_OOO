@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-2dqg=8)1s9tti)2u2&m1vw6s=hg3iz40$os7)v#n(0t7_@c2sq'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['37.252.17.131']
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'equipment.exceptions.protected_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': [

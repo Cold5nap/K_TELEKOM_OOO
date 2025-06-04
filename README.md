@@ -7,4 +7,4 @@
 ### Client
 - Features slice design
 ### Server
-- доступ к swagger: api/docs/, api/redoc/, api/schema/
+- доступ к swagger: /api/docs/, /api/redoc/, /api/schema/
