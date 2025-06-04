@@ -22,4 +22,5 @@ export interface Equipment {
 	page?: number;
 	page_size?: number;
 	serial_number?: string;
+	search?: string;
   }

@@ -56,3 +56,4 @@ RUN chmod +x /wait-for-db.sh
 
 # Команда для запуска миграций и сервера
 CMD ["/wait-for-db.sh", "sh", "-c", "python manage.py migrate && gunicorn --bind 0.0.0.0:8002 manager.wsgi:application"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8002"]

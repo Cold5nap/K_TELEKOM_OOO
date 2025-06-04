@@ -1,7 +1,23 @@
 <template>
 	<q-page padding>
 		<div class="row justify-between items-center q-mb-md">
-			<h2 class="text-h4">Типы оборудования</h2>
+			<div class="row q-gutter-md items-center">
+				<b class="text-h5">Типы оборудования</b>
+
+			<q-input
+				v-model="params.search"
+				placeholder="Поиск"
+				debounce="500"
+				dense
+				outlined
+				clearable
+			>
+				<template v-slot:append>
+					<q-icon name="search" />
+				</template>
+			</q-input>
+			</div>
+
 			<q-btn color="primary" label="Добавить тип" @click="addDialog" />
 		</div>
 
@@ -62,7 +78,7 @@ const columns: QTableColumn[] = [
 	{ name: "actions", label: "Действия", field: "", align: "right" },
 ];
 
-const params = ref({ page: 1, page_size: 10 });
+const params = ref({ page: 1, page_size: 10,search:undefined });
 
 const {
 	data: equipmentTypes,
@@ -90,6 +106,7 @@ watch(equipmentTypes, (newData) => {
 function onRequest(props: { pagination: typeof pagination.value }) {
 	pagination.value = props.pagination;
 	params.value = {
+		...params.value,
 		page: props.pagination.page,
 		page_size: props.pagination.rowsPerPage || 10,
 	};

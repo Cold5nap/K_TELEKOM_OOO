@@ -6,6 +6,7 @@ import axios, {
 } from "axios";
 import { TokenPair, useAuthStore } from "@/features/user";
 import { Notify } from "quasar";
+import router from "@/app/router";
 
 // Типы для базовых ответов API
 type PaginatedResponse<T> = {
@@ -62,6 +63,7 @@ apiClient.interceptors.response.use(
 				return apiClient(originalRequest);
 			} catch (refreshError) {
 				authStore.logout();
+				router.push('/auth')
 				return Promise.reject(refreshError);
 			}
 		}

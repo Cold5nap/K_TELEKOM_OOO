@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Equipment, EquipmentType
 from .serializers import (
@@ -26,10 +27,10 @@ class EquipmentTypeViewSet(viewsets.ModelViewSet):
     queryset = EquipmentType.objects.all()
     serializer_class = EquipmentTypeSerializer
     pagination_class = StandardPagination
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['name', 'mask']
+    search_fields = ['name', 'mask']
     permission_classes = [IsAuthenticated]
-
 
 
 class EquipmentViewSet(viewsets.ModelViewSet):
@@ -40,7 +41,8 @@ class EquipmentViewSet(viewsets.ModelViewSet):
     queryset = Equipment.objects.filter(is_deleted=False)
     serializer_class = EquipmentSerializer
     pagination_class = StandardPagination
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['serial_number', 'note']
     filterset_fields = ['equipment_type', 'serial_number']
     permission_classes = [IsAuthenticated]
 

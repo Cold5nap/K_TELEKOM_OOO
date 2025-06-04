@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8002
+    # volumes:
+    #   - ./server:/app  # Монтируем текущую директорию в /app внутри контейнера
     ports:
       - "8002:8002"
     depends_on:
