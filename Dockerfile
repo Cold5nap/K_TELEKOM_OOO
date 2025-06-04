@@ -54,4 +54,5 @@ COPY --from=prod /app/dist /app/static
 COPY wait-for-db.sh /wait-for-db.sh
 RUN chmod +x /wait-for-db.sh
 
-CMD ["/wait-for-db.sh", "gunicorn", "--bind", "0.0.0.0:8002", "manager.wsgi:application"]
+# Команда для запуска миграций и сервера
+CMD ["/wait-for-db.sh", "sh", "-c", "python manage.py migrate && gunicorn --bind 0.0.0.0:8002 manager.wsgi:application"]

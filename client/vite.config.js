@@ -5,7 +5,7 @@ import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
 import path from "node:path";
 
 export default defineConfig({
-	base: '/static/',
+	// base: '/static/',
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),

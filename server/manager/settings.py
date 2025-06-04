@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-2dqg=8)1s9tti)2u2&m1vw6s=hg3iz40$os7)v#n(0t7_@c2sq'
 DEBUG = True
-ALLOWED_HOSTS = ['37.252.17.131']
+ALLOWED_HOSTS = ['37.252.17.131','localhost']
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'equipment.exceptions.protected_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -91,8 +91,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = 'static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIMPLE_JWT = {
