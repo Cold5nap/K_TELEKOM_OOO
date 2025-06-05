@@ -4,9 +4,9 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-2dqg=8)1s9tti)2u2&m1vw6s=hg3iz40$os7)v#n(0t7_@c2sq'
-DEBUG = True
-ALLOWED_HOSTS = ['37.252.17.131','localhost']
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'equipment.exceptions.protected_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -61,11 +61,11 @@ WSGI_APPLICATION = 'manager.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'equipment',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'db',  # имя сервиса "db" или 'localhost' из docker-compose.yml
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8mb4',
@@ -103,7 +103,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
+	'SIGNING_KEY': os.getenv('SECRET_KEY'),
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,

@@ -50,7 +50,7 @@ class BatchEquipmentSerializer(serializers.Serializer):
 
     def validate(self, data):
         errors = []
-        valid_data = []
+        valid_data = {}
 
         # Валидация каждого элемента через EquipmentSerializer
         for item_data in data['items']:
@@ -58,8 +58,14 @@ class BatchEquipmentSerializer(serializers.Serializer):
                 item_data['equipment_type_id'] = item_data['equipment_type'].id
                 # Создаем временный serializer для валидации
                 serializer = EquipmentSerializer(data=item_data)
+
                 serializer.is_valid(raise_exception=True)
-                valid_data.append(serializer.validated_data)
+                serial_number = item_data.get('serial_number')
+                if valid_data.get(serial_number):
+                    raise serializers.ValidationError('Повторяющаяся запись')
+                else:
+                    valid_data.update(
+                        {serial_number: serializer.validated_data})
             except serializers.ValidationError as e:
                 errors.append({
                     'errors': e.detail,

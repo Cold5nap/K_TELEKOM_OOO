@@ -1,5 +1,8 @@
 services:
   web:
+    env_file: .env  # Подключаем переменные из .env файла
+    environment:
+      - DB_HOST=db  # Явно указываем hostname контейнера с БД
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,11 +18,11 @@ services:
 
   db:
     image: mysql:8.0
+    env_file: .env
     environment:
-      MYSQL_DATABASE: equipment
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
-      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
