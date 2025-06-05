@@ -1,4 +1,4 @@
-## Тестовое задание full-stack('К Телеком ООО')
+## Тестовое задание full-stack
 
 ### Технологии:
 - Server: django, docker, mysql
