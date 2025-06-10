@@ -51,21 +51,28 @@ class BatchEquipmentSerializer(serializers.Serializer):
     def validate(self, data):
         errors = []
         valid_data = {}
+        unique_pairs = set()  # Для отслеживания уникальных пар (equipment_type_id, serial_number)
 
         # Валидация каждого элемента через EquipmentSerializer
         for item_data in data['items']:
             try:
-                item_data['equipment_type_id'] = item_data['equipment_type'].id
+                item_data['equipment_type_id'] = equipment_type_id = item_data['equipment_type'].id
+                serial_number = item_data.get('serial_number')
+
+                # Проверка уникальности пары equipment_type_id + serial_number
+                pair = (equipment_type_id, serial_number)
+                if pair in unique_pairs:
+                    raise serializers.ValidationError(
+                        f"Оборудование с типом {equipment_type_id} и серийным номером {serial_number} уже существует в пакете"
+                    )
+                unique_pairs.add(pair)
+
                 # Создаем временный serializer для валидации
                 serializer = EquipmentSerializer(data=item_data)
-
                 serializer.is_valid(raise_exception=True)
-                serial_number = item_data.get('serial_number')
-                if valid_data.get(serial_number):
-                    raise serializers.ValidationError('Повторяющаяся запись')
-                else:
-                    valid_data.update(
-                        {serial_number: serializer.validated_data})
+
+                valid_data[serial_number] = serializer.validated_data
+
             except serializers.ValidationError as e:
                 errors.append({
                     'errors': e.detail,
